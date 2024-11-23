@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation Engine</title>
+</head>
+<body>
+    <h1>Personalized Recommendation Engine</h1>
+    <input type="text" id="userId" placeholder="Enter User ID">
+    <button onclick="getRecommendations()">Get Recommendations</button>
+    <div id="recommendations"></div>
+    <script>
+        function getRecommendations() {
+            const userId = document.getElementById('userId').value;
+            fetch(`/recommend/?user_id=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const recommendationsDiv = document.getElementById('recommendations');
+                    recommendationsDiv.innerHTML = '<h3>Recommendations:</h3>';
+                    data.recommendations.forEach(item => {
+                        const div = document.createElement('div');
+                        div.textContent = `${item[0]} - Predicted Rating: ${item[1].toFixed(2)}`;
+                        recommendationsDiv.appendChild(div);
+                    });
+                });
+        }
+    </script>
+</body>
+</html>
